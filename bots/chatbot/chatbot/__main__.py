@@ -40,7 +40,13 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    if token and cfg.owner_telegram_chat_id:
+    telegram_api = None
+    if token:
+        from .telegram import TelegramApi
+
+        telegram_api = TelegramApi(token)
+
+    if telegram_api and cfg.owner_telegram_chat_id:
         notifier = TelegramNotifier(token, cfg.owner_telegram_chat_id)
     else:
         notifier = LogNotifier()
@@ -48,15 +54,23 @@ def main(argv: list[str] | None = None) -> int:
 
     store = Store(cfg.slug)
     engine = make_engine(cfg, store, notifier)
-    log.info("Client: %s (%s), motor: %s, model: %s", cfg.slug, cfg.business_name, engine.mode, cfg.model)
+    log.info(
+        "Client: %s (%s), motor: %s, model: %s, programări: %s",
+        cfg.slug, cfg.business_name, engine.mode, cfg.model, "da" if engine.calendar else "nu",
+    )
+
+    if engine.calendar is not None:
+        from .reminders import ReminderLoop
+
+        ReminderLoop(engine.calendar, cfg.business_name, telegram_api).start()
 
     if args.mode in ("telegram", "all"):
-        if not token:
+        if telegram_api is None:
             print("Lipsește TELEGRAM_BOT_TOKEN.", file=sys.stderr)
             return 2
-        from .telegram import TelegramApi, TelegramBot
+        from .telegram import TelegramBot
 
-        bot = TelegramBot(TelegramApi(token), engine)
+        bot = TelegramBot(telegram_api, engine, cfg.owner_telegram_chat_id)
         if args.mode == "telegram":
             bot.run()
             return 0

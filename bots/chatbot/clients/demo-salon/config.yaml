@@ -14,7 +14,7 @@ fallback_message: >-
   Îmi pare rău, la asta nu pot răspunde. Te pot ajuta cu prețuri, program sau
   programări?
 
-# Chat-ul Telegram al proprietarului, unde ajung cererile de preluare și lead-urile.
+# Chat-ul Telegram al proprietarului, unde ajung cererile, programările și preluările.
 # Se poate seta și prin variabila de mediu OWNER_TELEGRAM_CHAT_ID.
 owner_telegram_chat_id: null
 
@@ -25,3 +25,33 @@ allowed_origins:
 model: claude-opus-5-5
 effort: low
 max_history: 20
+
+# Programări prin chat (botul de programări). Scoate sau pune enabled: false
+# pentru un client care vrea doar chatbotul de întrebări și răspunsuri.
+booking:
+  enabled: true
+  timezone: Europe/Bucharest
+  slot_minutes: 30          # pasul la care se propun orele
+  capacity: 2               # câte programări pot fi în același timp (scaune/specialiști)
+  min_notice_minutes: 60    # nu se acceptă programări mai devreme de atât
+  max_days_ahead: 60
+  auto_confirm: true        # false: programarea așteaptă /confirma de la proprietar
+  remind_hours_before: 2    # reminder pe Telegram cu atâtea ore înainte
+  hours:
+    mon: ["09:00-20:00"]
+    tue: ["09:00-20:00"]
+    wed: ["09:00-20:00"]
+    thu: ["09:00-20:00"]
+    fri: ["09:00-20:00"]
+    sat: ["09:00-16:00"]
+    sun: []
+  services:
+    - {name: Tuns femei, minutes: 45, price: 90 lei}
+    - {name: Tuns și coafat, minutes: 90, price: 150 lei}
+    - {name: Coafat, minutes: 45, price: 80 lei}
+    - {name: Vopsit rădăcini, minutes: 90, price: de la 180 lei}
+    - {name: Balayage, minutes: 180, price: de la 350 lei}
+    - {name: Tuns bărbați, minutes: 30, price: 60 lei}
+    - {name: Tuns și barbă, minutes: 45, price: 90 lei}
+    - {name: Manichiură semipermanentă, minutes: 60, price: 120 lei}
+    - {name: Pedichiură semipermanentă, minutes: 60, price: 140 lei}
