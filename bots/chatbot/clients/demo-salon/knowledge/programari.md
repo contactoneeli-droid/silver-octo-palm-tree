@@ -1,12 +1,15 @@
 # Programări
 
-- Programările se fac telefonic, pe Instagram sau prin acest chat.
-- Prin chat: cere numele clientului, serviciul dorit, ziua și intervalul orar preferat,
-  apoi folosește instrumentul de salvare a cererii ca să ajungă la echipă. Confirmarea
-  finală o dă o colegă, de obicei în maximum o oră în timpul programului.
-- Anulările sau reprogramările se fac cu cel puțin 24 de ore înainte.
+- Programările se fac prin acest chat, telefonic sau pe Instagram.
+- Prin chat, asistentul verifică orele libere și face programarea pe loc; clientul
+  primește numărul programării, ziua și ora. Cu 2 ore înainte primește un reminder
+  (pe Telegram).
+- Pentru programare e nevoie de nume, număr de telefon, serviciul dorit și ora aleasă
+  dintre cele libere.
+- Anulările sau reprogramările se fac cu cel puțin 24 de ore înainte, tot prin chat
+  (cu numărul programării sau telefonul).
 - La întârzieri de peste 15 minute programarea poate fi scurtată sau mutată.
-- Pentru balayage și tratamente lungi rezervă 3-4 ore.
+- Balayage și tratamentele lungi durează 3 ore; rezervă-ți timp.
 
 # Întrebări frecvente
 

@@ -47,7 +47,8 @@ class FakeMessages:
         self.calls = []
 
     def create(self, **kwargs):
-        self.calls.append(kwargs)
+        # Snapshot the messages list: the engine keeps appending to the same list during a tool loop.
+        self.calls.append({**kwargs, "messages": list(kwargs.get("messages", []))})
         return self.responses.pop(0)
 
 

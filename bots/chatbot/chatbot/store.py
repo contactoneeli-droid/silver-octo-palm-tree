@@ -1,7 +1,9 @@
-"""SQLite storage for conversations, requests (leads) and handoffs.
+"""SQLite storage for conversations, requests (leads), handoffs and appointments.
 
 One database file per client, under ``CHATBOT_DATA_DIR`` (default ``data/``).
 Only plain text turns are stored; tool calls stay inside a single request.
+Appointment times are stored as UTC ISO strings so they sort correctly
+across daylight-saving changes.
 """
 
 from __future__ import annotations
@@ -15,6 +17,8 @@ from pathlib import Path
 
 DATA_DIR = Path(os.environ.get("CHATBOT_DATA_DIR", Path(__file__).resolve().parent.parent / "data"))
 
+ACTIVE_STATUSES = ("confirmed", "pending")
+
 
 @dataclass(frozen=True)
 class Session:
@@ -27,6 +31,10 @@ class Session:
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def to_utc_iso(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).isoformat(timespec="seconds")
 
 
 class Store:
@@ -68,8 +76,25 @@ class Store:
                     summary TEXT NOT NULL,
                     created_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS appointments (
+                    id INTEGER PRIMARY KEY,
+                    channel TEXT NOT NULL,
+                    chat_id TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    contact TEXT NOT NULL,
+                    service TEXT NOT NULL,
+                    start_at TEXT NOT NULL,
+                    end_at TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    notes TEXT NOT NULL DEFAULT '',
+                    reminded INTEGER NOT NULL DEFAULT 0,
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS appointments_start ON appointments(start_at);
                 """
             )
+
+    # Conversations ---------------------------------------------------------------
 
     def add_message(self, session: Session, role: str, content: str) -> None:
         with self._lock, self._db:
@@ -95,6 +120,8 @@ class Store:
         with self._lock, self._db:
             self._db.execute("DELETE FROM messages WHERE channel=? AND chat_id=?", (session.channel, session.chat_id))
 
+    # Leads and handoffs ----------------------------------------------------------
+
     def add_lead(self, session: Session, name: str, contact: str, request: str) -> int:
         with self._lock, self._db:
             cur = self._db.execute(
@@ -115,6 +142,62 @@ class Store:
         with self._lock:
             rows = self._db.execute("SELECT * FROM leads ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
         return [dict(r) for r in rows]
+
+    # Appointments ----------------------------------------------------------------
+
+    def add_appointment(
+        self,
+        session: Session,
+        name: str,
+        contact: str,
+        service: str,
+        start: datetime,
+        end: datetime,
+        status: str,
+        notes: str = "",
+    ) -> int:
+        with self._lock, self._db:
+            cur = self._db.execute(
+                "INSERT INTO appointments(channel, chat_id, name, contact, service, start_at, end_at, status, notes, created_at)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?)",
+                (session.channel, session.chat_id, name, contact, service, to_utc_iso(start), to_utc_iso(end), status, notes, _now()),
+            )
+            return int(cur.lastrowid)
+
+    def appointments_between(self, start: datetime, end: datetime, active_only: bool = True) -> list[dict]:
+        """Active appointments overlapping [start, end), ordered by start."""
+        sql = "SELECT * FROM appointments WHERE start_at < ? AND end_at > ?"
+        params: list = [to_utc_iso(end), to_utc_iso(start)]
+        if active_only:
+            sql += f" AND status IN ({','.join('?' * len(ACTIVE_STATUSES))})"
+            params += list(ACTIVE_STATUSES)
+        sql += " ORDER BY start_at, id"
+        with self._lock:
+            rows = self._db.execute(sql, params).fetchall()
+        return [dict(r) for r in rows]
+
+    def get_appointment(self, appointment_id: int) -> dict | None:
+        with self._lock:
+            row = self._db.execute("SELECT * FROM appointments WHERE id=?", (appointment_id,)).fetchone()
+        return dict(row) if row else None
+
+    def set_appointment_status(self, appointment_id: int, status: str) -> None:
+        with self._lock, self._db:
+            self._db.execute("UPDATE appointments SET status=? WHERE id=?", (status, appointment_id))
+
+    def due_reminders(self, start: datetime, end: datetime) -> list[dict]:
+        """Confirmed, not yet reminded appointments starting in [start, end)."""
+        with self._lock:
+            rows = self._db.execute(
+                "SELECT * FROM appointments WHERE status='confirmed' AND reminded=0 AND start_at >= ? AND start_at < ?"
+                " ORDER BY start_at",
+                (to_utc_iso(start), to_utc_iso(end)),
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    def mark_reminded(self, appointment_id: int) -> None:
+        with self._lock, self._db:
+            self._db.execute("UPDATE appointments SET reminded=1 WHERE id=?", (appointment_id,))
 
     def close(self) -> None:
         self._db.close()
