@@ -1,0 +1,28 @@
+# Client demo: alerte de anunțuri noi pentru cine caută chirii, case sau mașini.
+# Copiază acest director pentru fiecare client nou și schimbă valorile.
+
+business_name: Alerte Imobiliare Cluj
+
+# Chat-ul Telegram al proprietarului (comenzi /utilizatori, /aproba, notificări).
+owner_telegram_chat_id: null
+
+# open = oricine scrie botului primește alerte; approved = proprietarul activează fiecare utilizator cu /aproba
+access: approved
+trial_days: 3            # zile gratuite la prima conversație (0 = fără probă); doar când access = approved
+subscription_days: 30    # durata implicită la /aproba ID
+
+max_searches_per_user: 5
+poll_minutes: 5          # cât de des se verifică fiecare căutare
+initial_results: 3       # câte anunțuri arată când adaugi o căutare
+max_per_check: 10        # cel mult atâtea anunțuri noi într-o singură verificare
+
+sources: [olx, storia, autovit]
+timezone: Europe/Bucharest
+
+texts:
+  welcome: >-
+    Bună! Îți trimit anunțurile noi de pe OLX, Storia și Autovit la câteva minute după ce apar,
+    ca să suni primul. Fă o căutare pe site cu filtrele tale (zonă, preț, camere...), copiază
+    linkul din browser și trimite-mi-l aici.
+  expired: >-
+    Abonamentul tău a expirat și alertele s-au oprit. Scrie-ne ca să îl prelungești.

@@ -8,6 +8,7 @@ Boți de vânzare pentru afaceri mici: WhatsApp, Telegram și Discord.
 - `bots/` — câte un director pentru fiecare bot:
   - `bots/chatbot/` — chatbot AI pentru site și Telegram, cu modul de programări
   - `bots/members/` — bot pentru grupuri Telegram plătite (abonamente, Stripe, acces automat)
+  - `bots/alerts/` — alerte pe Telegram pentru anunțuri noi de pe OLX, Storia și Autovit
 
 ## Pagina
 
