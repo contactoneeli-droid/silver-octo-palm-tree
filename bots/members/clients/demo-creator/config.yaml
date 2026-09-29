@@ -1,0 +1,35 @@
+# Client demo: un creator fictiv care vinde acces la un grup privat de Telegram.
+# Copiază acest director pentru fiecare client nou și schimbă valorile.
+
+business_name: Clubul de Trading
+# ID-ul grupului sau canalului privat (număr negativ, ex. -1001234567890).
+# Botul trebuie să fie administrator acolo, cu drept de a invita și de a scoate membri.
+# Se poate seta și prin variabila de mediu GROUP_CHAT_ID.
+group_chat_id: -1001234567890
+
+# Chat-ul Telegram al proprietarului (comenzi /stats, /aproba etc. și notificări).
+owner_telegram_chat_id: null
+
+currency: RON
+plans:
+  - {code: lunar, name: Abonament lunar, days: 30, price: 99}
+  - {code: trimestrial, name: Abonament 3 luni, days: 90, price: 249}
+  - {code: anual, name: Abonament anual, days: 365, price: 799}
+
+trial_days: 3            # 0 = fără perioadă de probă
+grace_days: 1            # zile de grație după expirare înainte de scoaterea din grup
+remind_days_before: 3    # reminder de reînnoire cu atâtea zile înainte
+
+coupons:
+  - {code: START20, percent: 20}
+
+payment:
+  provider: stripe       # stripe (card, automat) sau manual (transfer bancar + /aproba)
+  manual_instructions: >-
+    Plătește prin transfer în contul RO00 XXXX 0000 0000 0000 0000 (titular: Clubul de
+    Trading SRL), cu numele tău la detalii, apoi apasă „Am plătit”.
+
+texts:
+  welcome: >-
+    Bună! Aici îți iei accesul la grupul privat al Clubului de Trading: analize zilnice,
+    idei de tranzacționare și sesiuni live. Alege un abonament:
