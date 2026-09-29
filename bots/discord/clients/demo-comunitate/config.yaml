@@ -1,0 +1,54 @@
+# Client demo: o comunitate de gaming. Copiază directorul pentru fiecare client și schimbă valorile.
+# Numele de canale și roluri sunt cele din serverul clientului (fără #, fără @).
+
+business_name: Arena RO
+guild_id: 123456789012345678        # ID-ul serverului (Setări server > Widget, sau click dreapta cu modul dezvoltator)
+owner_discord_id: null
+
+welcome:
+  enabled: true
+  channel: bun-venit
+  rules_channel: reguli
+  auto_role: Membru
+  message: "Bun venit în {server}, {mention}! Ești membrul cu numărul {count}. Citește {rules} și distracție plăcută."
+  dm_message: null
+
+moderation:
+  enabled: true
+  banned_words: [prost, idiot, handicapat]
+  delete_invites: true            # șterge linkurile de invitație pe alte servere
+  spam_messages: 5                # mai mult de 5 mesaje...
+  spam_seconds: 5                 # ...în 5 secunde = spam
+  warn_limit: 3                   # la al 3-lea avertisment...
+  timeout_minutes: 60             # ...pauză de 60 de minute și avertismentele se resetează
+  log_channel: log-moderare
+  exempt_roles: [Moderator, Admin]
+
+tickets:
+  enabled: true
+  category: Tichete
+  support_role: Suport
+  panel_text: "Ai o problemă sau o întrebare pentru echipă? Apasă butonul și deschidem un canal privat doar pentru tine."
+  opening_text: "Salut, {mention}! Acesta e tichetul #{id}. Spune-ne ce s-a întâmplat și cineva din echipă îți răspunde aici."
+  max_open_per_user: 1
+
+games:
+  enabled: true
+  levels: true
+  xp_min: 15
+  xp_max: 25
+  xp_cooldown_seconds: 60
+  level_up_message: "🎉 {mention} a ajuns la nivelul {level}!"
+  level_roles:                    # rolul primit la un nivel (cel mai mare atins rămâne)
+    5: Veteran
+    10: Legendă
+  trivia: true
+  trivia_xp: 50
+
+paid_roles:
+  enabled: true
+  currency: EUR
+  remind_days_before: 3
+  roles:
+    - {code: vip, role: VIP, name: VIP lunar, days: 30, price: 4.99}
+    - {code: vip-an, role: VIP, name: VIP anual, days: 365, price: 39}
