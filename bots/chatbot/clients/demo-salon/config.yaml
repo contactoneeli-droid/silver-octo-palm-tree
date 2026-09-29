@@ -1,0 +1,27 @@
+# Client demo: un salon de înfrumusețare fictiv, folosit pentru demonstrații.
+# Copiază acest director pentru fiecare client nou și schimbă valorile.
+
+business_name: Salon Lumière
+language: ro
+tone: cald, prietenos și concis, ca o recepționeră cu experiență
+greeting: >-
+  Bună! Sunt asistentul virtual al salonului Lumière. Te pot ajuta cu prețuri,
+  program, programări sau orice altă întrebare. Cu ce încep?
+handoff_message: >-
+  Am notat și am anunțat o colegă. Te contactează cât de curând pe acest chat
+  sau la numărul lăsat.
+fallback_message: >-
+  Îmi pare rău, la asta nu pot răspunde. Te pot ajuta cu prețuri, program sau
+  programări?
+
+# Chat-ul Telegram al proprietarului, unde ajung cererile de preluare și lead-urile.
+# Se poate seta și prin variabila de mediu OWNER_TELEGRAM_CHAT_ID.
+owner_telegram_chat_id: null
+
+# Domeniile de pe care widget-ul web are voie să apeleze botul.
+allowed_origins:
+  - "*"
+
+model: claude-opus-5-5
+effort: low
+max_history: 20
