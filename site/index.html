@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Boți pentru afaceri mici: chatbot AI pentru WhatsApp și site, programări, grupuri Telegram plătite, alerte anunțuri, Discord și trading.">
+<meta property="og:title" content="Botzi · Boți pentru WhatsApp, Telegram și Discord">
+<meta property="og:description" content="Clienții tăi primesc răspuns și la 2 noaptea. Boți care răspund, fac programări și încasează abonamente.">
+<meta name="theme-color" content="#2446D8">
+<title>Botzi · Boți pentru WhatsApp, Telegram și Discord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap&subset=latin-ext">
+<style>
+/* Layout: hero with a live chat demo on the right, then a 3-col bot catalog, a 3-step process, FAQ and a contact form. */
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --ink:#131C26; --muted:#56616E; --line:#D5DBE2;
+  --accent:#2446D8; --accent-ink:#FFFFFF; --warm:#F0A23A; --bubble-bot:#E4E9FB; --bubble-me:#131C26; --bubble-me-ink:#FFFFFF;
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Onest",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F151C; --surface:#171F29; --ink:#E8EDF3; --muted:#9AA6B4; --line:#2A3542;
+  --accent:#7D95FF; --accent-ink:#0F151C; --warm:#F2B560; --bubble-bot:#1F2B45; --bubble-me:#E8EDF3; --bubble-me-ink:#0F151C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151C; --surface:#171F29; --ink:#E8EDF3; --muted:#9AA6B4; --line:#2A3542;
+  --accent:#7D95FF; --accent-ink:#0F151C; --warm:#F2B560; --bubble-bot:#1F2B45; --bubble-me:#E8EDF3; --bubble-me-ink:#0F151C; color-scheme:dark}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;-webkit-text-size-adjust:100%}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body)}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.3rem,5.4vw,4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.25rem;font-weight:700}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font:500 .75rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;justify-content:space-between;align-items:center;padding-block:22px;gap:16px}
+.logo{font:800 1.5rem var(--f-display);letter-spacing:-.02em;text-decoration:none}
+.logo span{color:var(--accent)}
+.navlinks{display:flex;gap:22px;font-weight:500}
+.navlinks a{text-decoration:none;color:var(--muted)}
+.navlinks a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);font:600 1rem var(--f-body);padding:13px 22px;border-radius:999px;border:0;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--warm);outline-offset:2px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:40px 72px}
+.hero > *{min-width:0}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:34em;margin-block:20px 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.proof{display:flex;gap:28px;flex-wrap:wrap;margin-top:36px}
+.proof b{display:block;font:700 1.6rem var(--f-display)}
+.proof span{color:var(--muted);font-size:.9rem}
+/* chat demo */
+.phone{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:0 30px 60px -30px rgba(19,28,38,.35)}
+.phone-head{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 .9rem var(--f-display)}
+.phone-head small{display:block;color:var(--muted);font-size:.78rem}
+.dot{width:8px;height:8px;border-radius:50%;background:#2DB36A;display:inline-block;margin-right:5px}
+.chat{display:flex;flex-direction:column;gap:10px;padding-top:16px;min-height:320px}
+.msg{max-width:82%;padding:10px 14px;border-radius:18px;font-size:.95rem;line-height:1.45;animation:pop .35s ease both}
+.msg.bot{background:var(--bubble-bot);border-bottom-left-radius:6px;align-self:flex-start}
+.msg.me{background:var(--bubble-me);color:var(--bubble-me-ink);border-bottom-right-radius:6px;align-self:flex-end}
+.msg time{display:block;font:500 .68rem var(--f-mono);opacity:.6;margin-top:4px}
+.slots{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.slots span{font:500 .78rem var(--f-mono);padding:4px 9px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+@keyframes pop{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.msg{animation:none}}
+/* sections */
+section{padding-block:64px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+.sec-head p{color:var(--muted);max-width:30em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.top{box-shadow:inset 0 0 0 2px var(--accent)}
+.tag{align-self:flex-start;font:500 .7rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:6px;background:var(--bubble-bot);color:var(--ink)}
+.card.top .tag{background:var(--warm);color:#131C26}
+.card p{color:var(--muted)}
+.card ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem}
+.price{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.price b{font:700 1.7rem var(--f-display);font-variant-numeric:tabular-nums}
+.price span{color:var(--muted);font:500 .8rem var(--f-mono)}
+.note{color:var(--muted);font-size:.85rem;margin-top:18px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{padding:24px;border-left:2px solid var(--line)}
+.step::before{counter-increment:s;content:"Pasul " counter(s);display:block;font:500 .75rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.step p{color:var(--muted);margin-top:8px}
+.faq{display:grid;gap:10px;max-width:760px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin-top:10px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:var(--ink);color:var(--bg);border-radius:28px;padding:44px}
+.contact > *{min-width:0}
+.contact p{color:color-mix(in srgb,var(--bg) 72%,transparent);margin-top:14px}
+form{display:grid;gap:12px}
+label{font-size:.85rem;font-weight:500}
+input,textarea,select{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid transparent;background:var(--bg);color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.thanks{background:var(--bg);color:var(--ink);padding:14px 16px;border-radius:12px}
+footer{padding-block:36px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:900px){.hero,.contact{grid-template-columns:1fr}.grid,.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.grid,.steps{grid-template-columns:1fr}.navlinks{display:none}.contact{padding:28px 20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top">botzi<span>.</span></a>
+    <div class="navlinks"><a href="#boti">Boți</a><a href="#cum">Cum lucrăm</a><a href="#intrebari">Întrebări</a></div>
+    <a class="btn" href="#contact">Cere o ofertă</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <p class="eyebrow">Boți pentru afaceri mici</p>
+      <h1>Clienții tăi primesc răspuns și la 2 noaptea.</h1>
+      <p class="lead">Facem boți pentru WhatsApp, Telegram și Discord care răspund la întrebări, fac programări și încasează abonamente. Tu te ocupi de afacere, botul se ocupă de mesaje.</p>
+      <div class="cta"><a class="btn" href="#contact">Vreau un bot</a><a class="btn ghost" href="#boti">Vezi boții</a></div>
+      <div class="proof">
+        <div><b>24/7</b><span>răspunde fără pauză</span></div>
+        <div><b>7 zile</b><span>până la lansare</span></div>
+        <div><b>RO / EN</b><span>vorbește ca un om</span></div>
+      </div>
+    </div>
+    <div class="phone" aria-label="Exemplu de conversație cu un bot de programări">
+      <div class="phone-head"><div class="avatar">SL</div><div><b>Salon Lumière</b><small><span class="dot"></span>asistent automat · exemplu</small></div></div>
+      <div class="chat" id="chat">
+        <div class="msg me">Bună! Aveți loc mâine la tuns?<time>23:47</time></div>
+        <div class="msg bot">Bună seara! Da, mâine avem liber la:<div class="slots"><span>10:30</span><span>13:00</span><span>17:15</span></div><time>23:47</time></div>
+        <div class="msg me">13:00 e perfect<time>23:48</time></div>
+        <div class="msg bot">Gata, te-am programat mâine la 13:00 la Andreea. Îți trimit un reminder cu 2 ore înainte. 💇<time>23:48</time></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section id="boti">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow">Catalog</p><h2>Alege botul potrivit</h2></div><p>Fiecare bot se configurează pe afacerea ta. Plătești o taxă de instalare și un abonament lunar care include găzduirea, actualizările și suportul.</p></div>
+    <div class="grid">
+      <article class="card top">
+        <span class="tag">Cel mai cerut</span>
+        <h3>Chatbot AI pentru WhatsApp și site</h3>
+        <p>Răspunde clienților din informațiile firmei tale: prețuri, program, stocuri, livrare.</p>
+        <ul><li>Învață din site-ul și documentele tale</li><li>Preia comenzi și date de contact</li><li>Te cheamă pe tine când nu știe</li></ul>
+        <div class="price"><b>49 €</b><span>/ lună · instalare 299 €</span></div>
+      </article>
+      <article class="card">
+        <span class="tag">Saloane · clinici · service</span>
+        <h3>Bot de programări</h3>
+        <p>Clientul își alege singur ora pe WhatsApp sau Telegram, iar botul trimite reminder.</p>
+        <ul><li>Calendar sincronizat cu Google</li><li>Reminder automat, mai puține neprezentări</li><li>Reprogramare dintr-un mesaj</li></ul>
+        <div class="price"><b>39 €</b><span>/ lună · instalare 149 €</span></div>
+      </article>
+      <article class="card">
+        <span class="tag">Creatori de conținut</span>
+        <h3>Bot pentru grupuri Telegram plătite</h3>
+        <p>Încasează abonamentul, dă acces în grup și îi scoate automat pe cei care nu mai plătesc.</p>
+        <ul><li>Plăți cu cardul sau crypto</li><li>Perioade de probă și coduri de reducere</li><li>Statistici cu abonații activi</li></ul>
+        <div class="price"><b>19 €</b><span>/ lună · fără comision</span></div>
+      </article>
+      <article class="card">
+        <span class="tag">Agenți · dealeri</span>
+        <h3>Alerte pentru anunțuri noi</h3>
+        <p>Urmărește anunțurile imobiliare și auto după filtrele tale și îți scrie primul când apare ceva nou.</p>
+        <ul><li>Filtre pe preț, zonă, an, kilometraj</li><li>Alertă pe Telegram în câteva minute</li><li>Istoric de preț pentru fiecare anunț</li></ul>
+        <div class="price"><b>15 €</b><span>/ lună</span></div>
+      </article>
+      <article class="card">
+        <span class="tag">Comunități</span>
+        <h3>Bot de Discord la comandă</h3>
+        <p>Moderare, tichete de suport, roluri plătite și jocuri pentru serverul tău.</p>
+        <ul><li>Construit pe regulile serverului tău</li><li>Panou simplu de setări</li><li>Mentenanță opțională</li></ul>
+        <div class="price"><b>de la 99 €</b><span>o singură dată · mentenanță 25 €/lună</span></div>
+      </article>
+      <article class="card">
+        <span class="tag">Crypto · acțiuni</span>
+        <h3>Bot de trading</h3>
+        <p>Execută automat strategia ta pe exchange, cu testare pe date istorice înainte de bani reali.</p>
+        <ul><li>Backtest și mod de simulare</li><li>Stop-loss și limite de risc</li><li>Rapoarte zilnice pe Telegram</li></ul>
+        <div class="price"><b>29 €</b><span>/ lună</span></div>
+      </article>
+    </div>
+    <p class="note">Prețurile nu includ TVA. Botul de trading execută strategia pe care o alegi tu și nu garantează profit.</p>
+  </div>
+</section>
+
+<section id="cum">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow">Cum lucrăm</p><h2>De la mesaj la bot în funcțiune</h2></div></div>
+    <div class="steps">
+      <div class="step"><h3>Ne spui ce vrei</h3><p>O discuție de 15 minute despre afacerea ta, clienții tăi și ce întrebări primești cel mai des.</p></div>
+      <div class="step"><h3>Construim și testăm</h3><p>Configurăm botul pe datele tale și ți-l dăm să-l încerci înainte să-l vadă vreun client.</p></div>
+      <div class="step"><h3>Îl pornim</h3><p>Botul intră live pe numărul sau serverul tău. Noi îl ținem la zi și îl ajustăm lunar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="intrebari">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow">Întrebări</p><h2>Ce ne întreabă clienții</h2></div></div>
+    <div class="faq">
+      <details><summary>Am nevoie de cunoștințe tehnice?</summary><p>Nu. Noi instalăm și configurăm totul. Tu primești botul gata de folosit și un panou simplu pentru modificări.</p></details>
+      <details><summary>Pot anula abonamentul oricând?</summary><p>Da, abonamentul e lunar, fără contract pe termen lung.</p></details>
+      <details><summary>Botul folosește numărul meu de WhatsApp?</summary><p>Da, prin WhatsApp Business API. Te ajutăm noi cu aprobarea numărului.</p></details>
+      <details><summary>Ce se întâmplă când botul nu știe răspunsul?</summary><p>Îi spune clientului că preia un coleg și îți trimite ție conversația, ca să răspunzi direct.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <p class="eyebrow" style="color:inherit;opacity:.7">Contact</p>
+        <h2>Spune-ne ce bot îți trebuie</h2>
+        <p>Îți răspundem în aceeași zi cu o ofertă și o demonstrație pe afacerea ta.</p>
+      </div>
+      <form id="lead">
+        <div><label for="name">Nume</label><input id="name" required placeholder="Andreea Popescu"></div>
+        <div><label for="phone">Telefon sau email</label><input id="phone" required placeholder="07xx xxx xxx"></div>
+        <div><label for="bot">Ce bot te interesează</label>
+          <select id="bot"><option>Chatbot AI pentru WhatsApp și site</option><option>Bot de programări</option><option>Bot pentru grupuri Telegram plătite</option><option>Alerte pentru anunțuri noi</option><option>Bot de Discord la comandă</option><option>Bot de trading</option></select></div>
+        <div><label for="msg">Despre afacerea ta</label><textarea id="msg" placeholder="Am un salon în Cluj și vreau programări pe WhatsApp."></textarea></div>
+        <button class="btn" type="submit">Trimite cererea</button>
+        <div class="thanks" id="thanks" hidden>Previzualizare: formularul nu e încă legat la un email sau CRM, așa că cererea nu a fost trimisă.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><footer><span>© 2026 botzi</span><span>Boți pentru WhatsApp, Telegram și Discord</span></footer></div>
+
+<script>
+document.getElementById('lead').addEventListener('submit',function(e){e.preventDefault();document.getElementById('thanks').hidden=false;});
+</script>
+</body>
+</html>
