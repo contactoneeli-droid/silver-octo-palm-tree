@@ -1,0 +1,19 @@
+# Întrebări pentru /trivia: q, options (2-4), answer = indexul răspunsului corect (de la 0).
+- q: Care e capitala României?
+  options: [Cluj-Napoca, București, Iași, Timișoara]
+  answer: 1
+- q: În ce an a apărut primul Counter-Strike?
+  options: ["1997", "1999", "2001", "2004"]
+  answer: 1
+- q: Câți jucători are o echipă de Valorant?
+  options: ["4", "5", "6"]
+  answer: 1
+- q: Ce companie a creat Minecraft inițial?
+  options: [Mojang, Microsoft, Valve, Epic Games]
+  answer: 0
+- q: Care e cel mai lung fluviu din Europa?
+  options: [Dunărea, Volga, Rinul, Niprul]
+  answer: 1
+- q: Cum se numește moneda din The Legend of Zelda?
+  options: [Gil, Rupee, Gold, Bells]
+  answer: 1
