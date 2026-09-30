@@ -1,0 +1,31 @@
+# Client demo. Copiază directorul pentru fiecare client și schimbă valorile.
+
+business_name: Demo Crypto
+exchange: binance                 # orice exchange suportat de ccxt (binance, bybit, kraken, okx...)
+symbols: [BTC/USDT, ETH/USDT]
+timeframe: 1h                     # 15m, 1h, 4h, 1d
+initial_cash: 1000                # capitalul de pornire pentru backtest și simulare (în cotație)
+quote: USDT
+
+strategy:
+  name: sma_cross                 # sma_cross | rsi | breakout
+  params: {fast: 20, slow: 50}
+  # name: rsi
+  # params: {period: 14, oversold: 30, overbought: 70}
+  # name: breakout
+  # params: {period: 20}
+
+risk:
+  position_pct: 10                # % din capital într-o poziție
+  stop_loss_pct: 3
+  take_profit_pct: 6
+  max_positions: 2
+  max_daily_loss_pct: 5           # dacă ziua e sub -5%, nu se mai deschid poziții până a doua zi
+  fee_pct: 0.1                    # comisionul exchange-ului
+  slippage_pct: 0.05              # alunecarea presupusă la ordinele la piață
+  min_notional: 10
+
+report_hour: 20                   # ora raportului zilnic pe Telegram
+timezone: Europe/Bucharest
+poll_seconds: 60
+owner_telegram_chat_id: null
